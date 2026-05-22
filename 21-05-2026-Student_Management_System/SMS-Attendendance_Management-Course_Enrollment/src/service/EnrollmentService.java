@@ -69,4 +69,68 @@ public class EnrollmentService {
 
         return courseList;
     }
+    
+    //View Courses of Student
+    public void viewCoursesOfStudent(int studentId) {
+
+        boolean found = false;
+
+        for(Enrollment enrollment :
+                enrollmentRepo.findAll()) {
+
+            if(enrollment.getStudentId() == studentId) {
+
+                Course course =
+                        courseRepo.findById(
+                                enrollment.getCourseId()
+                        );
+
+                if(course != null) {
+
+                    System.out.println(course);
+
+                    found = true;
+                }
+            }
+        }
+
+        if(!found) {
+
+            System.out.println(
+                    "No courses found for this student."
+            );
+        }
+    }
+    
+    //View Students in Course
+    public void viewStudentsInCourse(int courseId) {
+
+        boolean found = false;
+
+        for(Enrollment enrollment :
+                enrollmentRepo.findAll()) {
+
+            if(enrollment.getCourseId() == courseId) {
+
+                Student student =
+                        studentRepo.findById(
+                                enrollment.getStudentId()
+                        );
+
+                if(student != null) {
+
+                    System.out.println(student);
+
+                    found = true;
+                }
+            }
+        }
+
+        if(!found) {
+
+            System.out.println(
+                    "No students enrolled in this course."
+            );
+        }
+    }
 }

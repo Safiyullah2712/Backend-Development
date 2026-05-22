@@ -33,12 +33,18 @@ public class Main {
 
         do {
 
-            logger.info("\n===== Student Management System =====");
+            logger.info(
+                    "\n===== Student Management System ====="
+            );
 
             logger.info("1. Student Module");
+
             logger.info("2. Attendance Module");
-            logger.info("3. Add Course");
+
+            logger.info("3. Course Module");
+
             logger.info("4. Enrollment Module");
+
             logger.info("5. Exit");
 
             logger.info("Enter Choice:");
@@ -61,7 +67,7 @@ public class Main {
 
                 case 3:
 
-                    courseController.addCourse();
+                    courseController.start();
 
                     break;
 

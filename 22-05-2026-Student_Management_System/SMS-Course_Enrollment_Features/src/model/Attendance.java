@@ -1,0 +1,45 @@
+package model;
+
+public class Attendance {
+
+    private int attendanceId;
+    private int studentId;
+    private String date;
+    private String status;
+
+    public Attendance(int attendanceId,
+                      int studentId,
+                      String date,
+                      String status) {
+
+        this.attendanceId = attendanceId;
+        this.studentId = studentId;
+        this.date = date;
+        this.status = status;
+    }
+
+    public int getAttendanceId() {
+        return attendanceId;
+    }
+
+    public int getStudentId() {
+        return studentId;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    @Override
+    public String toString() {
+
+        return "Attendance ID: " + attendanceId +
+                ", Student ID: " + studentId +
+                ", Date: " + date +
+                ", Status: " + status;
+    }
+}

@@ -1,6 +1,7 @@
 package controller;
 
 import model.Enrollment;
+
 import service.EnrollmentService;
 
 import java.util.Scanner;
@@ -18,7 +19,6 @@ public class EnrollmentController {
 
     private Scanner sc = new Scanner(System.in);
 
-    //Enrollment Menu
     public void start() {
 
         int choice;
@@ -28,11 +28,13 @@ public class EnrollmentController {
             logger.info("\n===== Enrollment Menu =====");
 
             logger.info("1. Enroll Student");
-            logger.info("2. View Courses of Student");
-            logger.info("3. View Students in Course");
-            logger.info("4. Exit");
-
-            logger.info("Enter Choice:");
+            logger.info("2. Unenroll Student");
+            logger.info("3. View Courses of Student");
+            logger.info("4. View Students in Course");
+            logger.info("5. Students in Multiple Courses");
+            logger.info("6. Count Students Per Course");
+            logger.info("7. Top 3 Popular Courses");
+            logger.info("8. Exit");
 
             choice = sc.nextInt();
 
@@ -46,19 +48,43 @@ public class EnrollmentController {
 
                 case 2:
 
-                    viewCoursesOfStudent();
+                    unenrollStudent();
 
                     break;
 
                 case 3:
 
-                    viewStudentsInCourse();
+                    viewCoursesOfStudent();
 
                     break;
 
                 case 4:
 
-                    logger.info("Returning to Main Menu...");
+                    viewStudentsInCourse();
+
+                    break;
+
+                case 5:
+
+                    service.studentsInMultipleCourses();
+
+                    break;
+
+                case 6:
+
+                    service.countStudentsPerCourse();
+
+                    break;
+
+                case 7:
+
+                    service.top3Courses();
+
+                    break;
+
+                case 8:
+
+                    logger.info("Returning...");
 
                     break;
 
@@ -67,10 +93,9 @@ public class EnrollmentController {
                     logger.warning("Invalid Choice");
             }
 
-        } while(choice != 4);
+        } while(choice != 8);
     }
 
-    //Enroll Student
     private void enrollStudent() {
 
         logger.info("Enter Enrollment ID:");
@@ -89,13 +114,27 @@ public class EnrollmentController {
                         courseId
                 );
 
-        String result =
-                service.enrollStudent(enrollment);
-
-        logger.info(result);
+        logger.info(
+                service.enrollStudent(enrollment)
+        );
     }
 
-    //View Courses of Student
+    private void unenrollStudent() {
+
+        logger.info("Enter Student ID:");
+        int studentId = sc.nextInt();
+
+        logger.info("Enter Course ID:");
+        int courseId = sc.nextInt();
+
+        logger.info(
+                service.unenrollStudent(
+                        studentId,
+                        courseId
+                )
+        );
+    }
+
     private void viewCoursesOfStudent() {
 
         logger.info("Enter Student ID:");
@@ -105,7 +144,6 @@ public class EnrollmentController {
         service.viewCoursesOfStudent(studentId);
     }
 
-    //View Students in Course
     private void viewStudentsInCourse() {
 
         logger.info("Enter Course ID:");
