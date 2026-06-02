@@ -1,29 +1,42 @@
-public class EnrollmentProcessorWOSync extends Thread {
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
-    static int totalEnrollmentsProcessed = 0;
+public class EnrollmentProcessorWOSync {
 
-    @Override
-    public void run() {
-        for (int i = 0; i < 1000; i++) {
-            totalEnrollmentsProcessed++;
-        }
-    }
+    private static int totalEnrollmentsProcessed = 0;
 
     public static void main(String[] args) throws InterruptedException {
 
-        EnrollmentProcessorWOSync t1 = new EnrollmentProcessorWOSync();
-        EnrollmentProcessorWOSync t2 = new EnrollmentProcessorWOSync();
-        EnrollmentProcessorWOSync t3 = new EnrollmentProcessorWOSync();
+        ExecutorService executorService = Executors.newFixedThreadPool(5);
 
-        t1.start();
-        t2.start();
-        t3.start();
+        for (int task = 1; task <= 50; task++) {
 
-        t1.join();
-        t2.join();
-        t3.join();
+            int taskId = task;
 
-        System.out.println("Total Enrollments Processed: "
-                + totalEnrollmentsProcessed);
+            executorService.submit(() -> {
+
+                String threadName = Thread.currentThread().getName();
+
+                System.out.println(
+                        "Task " + taskId +
+                        " started by " + threadName);
+
+                for (int i = 0; i < 1000; i++) {
+                    totalEnrollmentsProcessed++;
+                }
+
+                System.out.println(
+                        "Task " + taskId +
+                        " completed by " + threadName);
+            });
+        }
+
+        executorService.shutdown();
+        executorService.awaitTermination(1, TimeUnit.MINUTES);
+
+        System.out.println(
+                "\nTotal Enrollments Processed(Without Synchronization) = "
+                        + totalEnrollmentsProcessed);
     }
 }
